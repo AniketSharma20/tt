@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Security System - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="shield-loader">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Women Security System</h3>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p>Initializing security features...</p>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Enhanced Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo-section">
+                    <i class="fas fa-shield-alt logo-icon"></i>
+                    <div class="logo-text">
+                        <h2>SafeGuard</h2>
+                        <span class="logo-subtitle">Women Security System</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="status-indicators">
+                    <div class="status-item" id="locationStatus">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Location: Inactive</span>
+                    </div>
+                    <div class="status-item" id="emergencyStatus">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Status: Safe</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">{{ session.username }}</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" onclick="toggleNotifications()" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <a href="{{ url_for('logout') }}" class="header-btn logout-btn" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Enhanced Navigation -->
+        <nav class="dashboard-nav">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showSection('overview')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('location')">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Live Location</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('shelters')">
+                    <i class="fas fa-home"></i>
+                    <span>Safe Shelters</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('emergency')">
+                    <i class="fas fa-phone"></i>
+                    <span>Emergency</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('complaints')">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Complaints</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('ai-assistant')">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Assistant</span>
+                </button>
+                <button class="nav-btn" onclick="showSection('tips')">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Safety Tips</span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            <!-- Overview Section -->
+            <section id="overview" class="content-section active">
+                <div class="overview-header">
+                    <h3><i class="fas fa-chart-line"></i> Security Dashboard Overview</h3>
+                    <div class="overview-actions">
+                        <button class="btn btn-primary" onclick="emergencyAlert()">
+                            <i class="fas fa-exclamation-triangle"></i> Emergency Alert
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="overview-grid">
+                    <!-- Quick Stats Cards -->
+                    <div class="stat-card">
+                        <div class="stat-icon location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>Location Status</h4>
+                            <p id="overviewLocation">Not Tracking</p>
+                            <small>Click to activate</small>
+                        </div>
+                        <button class="stat-action" onclick="showSection('location')">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon shelter-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>Safe Shelters</h4>
+                            <p id="overviewShelters">3 Nearby</p>
+                            <small>View locations</small>
+                        </div>
+                        <button class="stat-action" onclick="showSection('shelters')">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon emergency-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>Emergency Contacts</h4>
+                            <p>4 Available</p>
+                            <small>Quick access</small>
+                        </div>
+                        <button class="stat-action" onclick="showSection('emergency')">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon ai-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>AI Assistant</h4>
+                            <p id="overviewAI">Ready</p>
+                            <small>Voice & text</small>
+                        </div>
+                        <button class="stat-action" onclick="showSection('ai-assistant')">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="activity-section">
+                    <h4><i class="fas fa-clock"></i> Recent Activity</h4>
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Account created successfully</p>
+                                <small>Just now</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Security system initialized</p>
+                                <small>Just now</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Live Location Section -->
+            <section id="location" class="content-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-map-marker-alt"></i> Live Location Tracking</h3>
+                    <div class="section-actions">
+                        <button id="startTracking" class="btn btn-primary" onclick="startLocationTracking()">
+                            <i class="fas fa-play"></i> Start Tracking
+                        </button>
+                        <button id="stopTracking" class="btn btn-secondary" onclick="stopLocationTracking()" disabled>
+                            <i class="fas fa-stop"></i> Stop Tracking
+                        </button>
+                        <button class="btn btn-success" onclick="shareLocation()">
+                            <i class="fas fa-share"></i> Share Location
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="location-dashboard">
+                    <div class="location-controls">
+                        <div class="control-group">
+                            <label>Tracking Interval</label>
+                            <select id="trackingInterval" onchange="updateTrackingInterval()">
+                                <option value="10000">Every 10 seconds</option>
+                                <option value="30000" selected>Every 30 seconds</option>
+                                <option value="60000">Every 1 minute</option>
+                                <option value="300000">Every 5 minutes</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Accuracy Level</label>
+                            <select id="accuracyLevel" onchange="updateAccuracyLevel()">
+                                <option value="low">Low (Faster)</option>
+                                <option value="balanced" selected>Balanced</option>
+                                <option value="high">High (Slower)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="location-main">
+                        <div id="map" class="location-map"></div>
+                        <div class="location-sidebar">
+                            <div class="location-status-card">
+                                <h4>Current Status</h4>
+                                <div class="status-details">
+                                    <div class="status-row">
+                                        <span>Tracking:</span>
+                                        <span id="trackingStatus">Inactive</span>
+                                    </div>
+                                    <div class="status-row">
+                                        <span>Last Update:</span>
+                                        <span id="lastUpdate">Never</span>
+                                    </div>
+                                    <div class="status-row">
+                                        <span>Accuracy:</span>
+                                        <span id="accuracy">N/A</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="location-history">
+                                <h4>Location History</h4>
+                                <div id="locationHistory" class="history-list">
+                                    <p class="no-history">No location data yet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Safe Shelters Section -->
+            <section id="shelters" class="content-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-home"></i> Safe Night Shelters</h3>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" onclick="refreshShelters()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="btn btn-success" onclick="showNearbyShelters()">
+                            <i class="fas fa-search"></i> Find Nearby
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="shelters-dashboard">
+                    <div class="shelters-controls">
+                        <div class="search-box">
+                            <input type="text" id="shelterSearch" placeholder="Search shelters..." onkeyup="filterShelters()">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="filter-options">
+                            <select id="shelterFilter" onchange="filterShelters()">
+                                <option value="all">All Shelters</option>
+                                <option value="nearby">Near Me</option>
+                                <option value="available">Available Now</option>
+                                <option value="high-rated">High Rated (4+)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="shelters-main">
+                        <div id="sheltersList" class="shelters-list"></div>
+                        <div id="shelterMap" class="shelters-map"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Emergency Section -->
+            <section id="emergency" class="content-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-phone"></i> Emergency Features</h3>
+                    <div class="emergency-alert-banner">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Emergency services are available 24/7</span>
+                    </div>
+                </div>
+                
+                <div class="emergency-dashboard">
+                    <div class="emergency-main">
+                        <div class="emergency-primary">
+                            <div class="emergency-title">
+                                <h4>Emergency Actions</h4>
+                                <p>Quick access to critical safety features</p>
+                            </div>
+                            <div class="emergency-buttons">
+                                <button class="emergency-btn siren-btn" onclick="activateSiren()">
+                                    <div class="btn-content">
+                                        <i class="fas fa-bell"></i>
+                                        <div class="btn-text">
+                                            <span class="btn-title">Activate Siren</span>
+                                            <span class="btn-subtitle">Loud alarm to attract attention</span>
+                                        </div>
+                                    </div>
+                                    <div class="btn-status">
+                                        <div class="status-dot"></div>
+                                    </div>
+                                </button>
+                                
+                                <button class="emergency-btn call-btn" onclick="initiateFakeCall()">
+                                    <div class="btn-content">
+                                        <i class="fas fa-phone"></i>
+                                        <div class="btn-text">
+                                            <span class="btn-title">Fake Call</span>
+                                            <span class="btn-subtitle">Simulate emergency call</span>
+                                        </div>
+                                    </div>
+                                    <div class="btn-status">
+                                        <div class="status-dot"></div>
+                                    </div>
+                                </button>
+                                
+                                <button class="emergency-btn share-btn" onclick="emergencyShareLocation()">
+                                    <div class="btn-content">
+                                        <i class="fas fa-location-arrow"></i>
+                                        <div class="btn-text">
+                                            <span class="btn-title">Emergency Alert</span>
+                                            <span class="btn-subtitle">Share location with contacts</span>
+                                        </div>
+                                    </div>
+                                    <div class="btn-status">
+                                        <div class="status-dot"></div>
+                                    </div>
+                                </button>
+                                
+                                <button class="emergency-btn alert-btn" onclick="sendEmergencyAlert()">
+                                    <div class="btn-content">
+                                        <i class="fas fa-exclamation"></i>
+                                        <div class="btn-text">
+                                            <span class="btn-title">Alert Authorities</span>
+                                            <span class="btn-subtitle">Notify emergency services</span>
+                                        </div>
+                                    </div>
+                                    <div class="btn-status">
+                                        <div class="status-dot"></div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="emergency-contacts">
+                            <h4>Emergency Contacts</h4>
+                            <div class="contacts-list">
+                                <div class="contact-card">
+                                    <div class="contact-icon police">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Police</h5>
+                                        <p>For emergencies and crimes</p>
+                                        <span class="contact-number">100</span>
+                                    </div>
+                                    <button onclick="callEmergency('100')" class="contact-call-btn">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="contact-card">
+                                    <div class="contact-icon ambulance">
+                                        <i class="fas fa-ambulance"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Ambulance</h5>
+                                        <p>Medical emergencies</p>
+                                        <span class="contact-number">108</span>
+                                    </div>
+                                    <button onclick="callEmergency('108')" class="contact-call-btn">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="contact-card">
+                                    <div class="contact-icon fire">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Fire Brigade</h5>
+                                        <p>Fire emergencies</p>
+                                        <span class="contact-number">101</span>
+                                    </div>
+                                    <button onclick="callEmergency('101')" class="contact-call-btn">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="contact-card">
+                                    <div class="contact-icon women-helpline">
+                                        <i class="fas fa-female"></i>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h5>Women Helpline</h5>
+                                        <p>Women-specific support</p>
+                                        <span class="contact-number">1091</span>
+                                    </div>
+                                    <button onclick="callEmergency('1091')" class="contact-call-btn">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Complaints Section -->
+            <section id="complaints" class="content-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Complaint Box</h3>
+                    <div class="section-actions">
+                        <button class="btn btn-info" onclick="showComplaintHistory()">
+                            <i class="fas fa-history"></i> View History
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="complaints-dashboard">
+                    <div class="complaint-form-section">
+                        <h4>Submit New Complaint</h4>
+                        <form id="complaintForm" class="complaint-form" onsubmit="submitComplaint(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="complaintTitle">Title *</label>
+                                    <input type="text" id="complaintTitle" placeholder="Brief description of the issue" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="complaintCategory">Category *</label>
+                                    <select id="complaintCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="harassment">Harassment</option>
+                                        <option value="safety">Safety Concern</option>
+                                        <option value="emergency">Emergency</option>
+                                        <option value="suspicious">Suspicious Activity</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="complaintDescription">Detailed Description *</label>
+                                <textarea id="complaintDescription" rows="4" placeholder="Provide detailed information about the incident..." required></textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="complaintLocation">Location (Optional)</label>
+                                    <input type="text" id="complaintLocation" placeholder="Where did this occur?">
+                                </div>
+                                <div class="form-group">
+                                    <label for="complaintTime">Time (Optional)</label>
+                                    <input type="datetime-local" id="complaintTime">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="complaintAttachments">Attachments (Optional)</label>
+                                <input type="file" id="complaintAttachments" multiple accept="image/*,video/*">
+                                <small>Upload photos or videos as evidence</small>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary submit-btn">
+                                <i class="fas fa-paper-plane"></i> Submit Complaint
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="complaint-guidelines">
+                        <h4>Guidelines</h4>
+                        <div class="guidelines-list">
+                            <div class="guideline-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Provide accurate and detailed information</span>
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Include specific locations and times</span>
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Upload relevant evidence if available</span>
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Contact emergency services for immediate danger</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Complaint History Modal -->
+                <div id="complaintHistoryModal" class="history-modal">
+                    <div class="history-modal-content">
+                        <div class="history-modal-header">
+                            <h3><i class="fas fa-history"></i> Complaint History</h3>
+                            <button onclick="closeComplaintHistory()" class="close-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="history-filters">
+                            <select id="historyFilter" onchange="filterHistory()">
+                                <option value="all">All Complaints</option>
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                            <input type="date" id="historyDateFilter" onchange="filterHistory()">
+                        </div>
+                        <div id="complaintHistoryList" class="history-list">
+                            <!-- Complaints will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- AI Assistant Section -->
+            <section id="ai-assistant" class="content-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-robot"></i> Personal AI Assistant</h3>
+                    <div class="ai-status">
+                        <span class="status-indicator" id="aiStatus">Ready</span>
+                    </div>
+                </div>
+                
+                <div class="ai-dashboard">
+                    <div class="ai-controls">
+                        <div class="control-panel">
+                            <h4>Voice Assistant</h4>
+                            <div class="voice-controls">
+                                <button id="startAI" class="btn btn-primary" onclick="startAIAssistant()">
+                                    <i class="fas fa-microphone"></i> Start Listening
+                                </button>
+                                <button id="stopAI" class="btn btn-secondary" onclick="stopAIAssistant()" disabled>
+                                    <i class="fas fa-microphone-slash"></i> Stop
+                                </button>
+                                <div class="voice-indicator" id="voiceIndicator">
+                                <div class="voice-indicator" id="voiceIndicator">
+                                    <div class="voice-wave">
+                                        <div class="wave"></div>
+                                        <span>Listening...</span>
+                                    </div>
+                                </div>                                    <div class</div>
+                                    <span>Listening...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-suggestions">
+                            <h4>Quick Commands</h4>
+                            <div class="suggestion-buttons">
+                                <button class="suggestion-btn" onclick="sendQuickCommand('emergency')">
+                                    <i class="fas fa-exclamation-triangle"></i> Emergency
+                                </button>
+                                <button class="suggestion-btn" onclick="sendQuickCommand('location')">
+                                    <i class="fas fa-map-marker-alt"></i> Share Location
+                                </button>
+                                <button class="suggestion-btn" onclick="sendQuickCommand('safe place')">
+                                    <i class="fas fa-home"></i> Find Safe Place
+                                </button>
+                                <button class="suggestion-btn" onclick="sendQuickCommand('fake call')">
+                                    <i class="fas fa-phone"></i> Fake Call
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-chat-container">
+                        <div class="ai-chat">
+                            <div class="chat-header">
+                                <div class="chat-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="chat-info">
+                                    <h4>Safety Assistant</h4>
+                                    <p>Your personal security companion</p>
+                                </div>
+                                <div class="chat-status">
+                                    <div class="status-dot online"></div>
+                                    <span>Online</span>
+                                </div>
+                            </div>
+                            
+                            <div id="aiMessages" class="ai-messages">
+                                <div class="message assistant-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>Hello! I'm your personal safety assistant. I can help you with emergency procedures, location sharing, finding safe places, and safety tips. How can I assist you today?</p>
+                                        <span class="message-time">Just now</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-input-container">
+                                <div class="ai-input">
+                                    <input type="text" id="aiTextInput" placeholder="Type your message or question..." onkeypress="handleAIEnter(event)">
+                                    <button onclick="sendAIMessage()" class="send-btn">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="input-suggestions">
+                                    <span>Try: "Help me with safety tips" or "Share my location"</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Safety Tips Section -->
+            <section id="tips" class="content-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-lightbulb"></i> Emergency Tips & Information</h3>
+                    <div class="section-actions">
+                        <button class="btn btn-info" onclick="refreshTips()">
+                            <i class="fas fa-sync-alt"></i> Refresh Tips
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="tips-dashboard">
+                    <div class="tips-categories">
+                        <div class="category-filter">
+                            <button class="category-btn active" onclick="filterTips('all')">All Tips</button>
+                            <button class="category-btn" onclick="filterTips('general')">General Safety</button>
+                            <button class="category-btn" onclick="filterTips('travel')">Travel Safety</button>
+                            <button class="category-btn" onclick="filterTips('technology')">Technology</button>
+                            <button class="category-btn" onclick="filterTips('emergency')">Emergency</button>
+                        </div>
+                    </div>
+                    
+                    <div id="tipsList" class="tips-grid"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Floating Emergency Button -->
+    <div class="floating-emergency" onclick="emergencyAlert()">
+        <div class="floating-btn">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="floating-label">Emergency</div>
+    </div>
+    
+    <!-- Notifications Panel - Professional Design -->
+    <div id="notificationsPanel" class="notifications-panel">
+        <div class="notifications-header">
+            <div class="notifications-overlay"></div>
+            <div class="notifications-title-row">
+                <div class="notifications-icon-wrapper">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-pulse"></span>
+                </div>
+                <div class="notifications-title-content">
+                    <h4>Notifications</h4>
+                    <p class="notifications-subtitle">Stay updated with your security</p>
+                </div>
+            </div>
+            <div class="notifications-actions">
+                <div class="search-notifications">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search notifications..." id="notificationSearch">
+                </div>
+                <div class="action-buttons">
+                    <button class="header-action-btn" onclick="markAllAsRead()" title="Mark all as read">
+                        <i class="fas fa-check-double"></i>
+                        <span class="action-tooltip">Mark all read</span>
+                    </button>
+                    <button class="header-action-btn" onclick="toggleNotifications()" title="Close">
+                        <i class="fas fa-times"></i>
+                        <span class="action-tooltip">Close</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="notifications-tabs">
+            <button class="tab-notification active" data-filter="all" onclick="filterNotifications('all')">
+                <i class="fas fa-layer-group"></i>
+                <span>All</span>
+                <span class="tab-count">3</span>
+            </button>
+            <button class="tab-notification" data-filter="unread" onclick="filterNotifications('unread')">
+                <i class="fas fa-envelope"></i>
+                <span>Unread</span>
+                <span class="tab-count unread">2</span>
+            </button>
+            <button class="tab-notification" data-filter="important" onclick="filterNotifications('important')">
+                <i class="fas fa-star"></i>
+                <span>Important</span>
+                <span class="tab-count">1</span>
+            </button>
+            <button class="tab-notification" data-filter="emergency" onclick="filterNotifications('emergency')">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Emergency</span>
+                <span class="tab-count emergency">0</span>
+            </button>
+        </div>
+        
+        <div class="notifications-list" id="notificationsList">
+            <!-- Notification Item 1 - Unread -->
+            <div class="notification-item unread important priority-high" data-notification-id="1" onclick="openNotification(this)">
+                <div class="notification-glow"></div>
+                <div class="notification-priority-badge">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="notification-icon-wrapper info">
+                    <div class="notification-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="unread-indicator">
+                        <span class="pulse-ring"></span>
+                    </div>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-header">
+                        <div class="notification-type">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Security Alert</span>
+                        </div>
+                        <div class="notification-meta-row">
+                            <span class="notification-time">
+                                <i class="far fa-clock"></i>
+                                Just now
+                            </span>
+                            <span class="notification-badge emergency-badge">
+                                <i class="fas fa-bolt"></i>
+                                Priority High
+                            </span>
+                        </div>
+                    </div>
+                    <p class="notification-message">Welcome to SafeGuard! Your security dashboard is fully activated and ready to protect you.</p>
+                    <div class="notification-footer-row">
+                        <span class="notification-category">
+                            <i class="fas fa-tag"></i>
+                            System
+                        </span>
+                        <div class="notification-actions-inline">
+                            <button class="action-inline-btn" onclick="event.stopPropagation(); markAsRead(this)" title="Mark as read">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-inline-btn" onclick="event.stopPropagation(); dismissNotification(this)" title="Dismiss">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Item 2 - Unread -->
+            <div class="notification-item unread" data-notification-id="2" onclick="openNotification(this)">
+                <div class="notification-glow"></div>
+                <div class="notification-icon-wrapper success">
+                    <div class="notification-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="unread-indicator">
+                        <span class="pulse-ring"></span>
+                    </div>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-header">
+                        <div class="notification-type">
+                            <i class="fas fa-check-shield"></i>
+                            <span>System Ready</span>
+                        </div>
+                        <div class="notification-meta-row">
+                            <span class="notification-time">
+                                <i class="far fa-clock"></i>
+                                2 min ago
+                            </span>
+                        </div>
+                    </div>
+                    <p class="notification-message">All emergency features are active and ready for immediate use. Your safety is our priority.</p>
+                    <div class="notification-footer-row">
+                        <span class="notification-category">
+                            <i class="fas fa-tag"></i>
+                            Safety
+                        </span>
+                        <div class="notification-actions-inline">
+                            <button class="action-inline-btn" onclick="event.stopPropagation(); markAsRead(this)" title="Mark as read">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-inline-btn" onclick="event.stopPropagation(); dismissNotification(this)" title="Dismiss">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Item 3 -->
+            <div class="notification-item" data-notification-id="3" onclick="openNotification(this)">
+                <div class="notification-glow"></div>
+                <div class="notification-icon-wrapper warning">
+                    <div class="notification-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-header">
+                        <div class="notification-type">
+                            <i class="fas fa-location-arrow"></i>
+                            <span>Location Tip</span>
+                        </div>
+                        <div class="notification-meta-row">
+                            <span class="notification-time">
+                                <i class="far fa-clock"></i>
+                                5 min ago
+                            </span>
+                            <span class="notification-badge tip-badge">
+                                <i class="fas fa-lightbulb"></i>
+                                Tip
+                            </span>
+                        </div>
+                    </div>
+                    <p class="notification-message">Enable location services for enhanced safety features and real-time tracking capabilities.</p>
+                    <div class="notification-footer-row">
+                        <span class="notification-category">
+                            <i class="fas fa-tag"></i>
+                            Recommendation
+                        </span>
+                        <div class="notification-actions-inline">
+                            <button class="notification-action-btn enhanced" onclick="event.stopPropagation(); enableLocation()">
+                                <i class="fas fa-cog"></i>
+                                Enable Now
+                            </button>
+                            <button class="action-inline-btn" onclick="event.stopPropagation(); dismissNotification(this)" title="Dismiss">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Item 4 -->
+            <div class="notification-item" data-notification-id="4" onclick="openNotification(this)">
+                <div class="notification-glow"></div>
+                <div class="notification-icon-wrapper info">
+                    <div class="notification-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-header">
+                        <div class="notification-type">
+                            <i class="fas fa-microchip"></i>
+                            <span>AI Assistant</span>
+                        </div>
+                        <div class="notification-meta-row">
+                            <span class="notification-time">
+                                <i class="far fa-clock"></i>
+                                1 hour ago
+                            </span>
+                        </div>
+                    </div>
+                    <p class="notification-message">Your AI Safety Assistant is online and ready to help with voice commands and safety tips.</p>
+                    <div class="notification-footer-row">
+                        <span class="notification-category">
+                            <i class="fas fa-tag"></i>
+                            Assistant
+                        </span>
+                        <div class="notification-actions-inline">
+                            <button class="action-inline-btn" onclick="event.stopPropagation(); dismissNotification(this)" title="Dismiss">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="notifications-footer">
+            <button class="footer-btn clear-all" onclick="clearAllNotifications()">
+                <i class="fas fa-trash-alt"></i>
+                <span>Clear All</span>
+            </button>
+            <div class="footer-divider"></div>
+            <button class="footer-btn settings" onclick="openNotificationSettings()">
+                <i class="fas fa-sliders-h"></i>
+                <span>Settings</span>
+            </button>
+            <button class="footer-btn history" onclick="showNotificationHistory()">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Audio Elements -->
+    <audio id="sirenSound" loop>
+        <source src="{{ url_for('static', filename='siren.mp3') }}" type="audio/mpeg">
+    </audio>
+    <audio id="notificationSound">
+        <source src="{{ url_for('static', filename='notification.mp3') }}" type="audio/mpeg">
+    </audio>
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
