@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeGuard - Women Security System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth-enhanced.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pattern-lock-simple.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="auth-container-main">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>SafeGuard</h1>
+                        <p>Women Security System</p>
+                    </div>
+                </div>
+                
+                <div class="hero-text">
+                    <h2>Your Safety, Our Priority</h2>
+                    <p>Advanced security features designed specifically for women's safety. Access emergency services, live location tracking, AI assistance, and a comprehensive support network.</p>
+                </div>
+                
+                <div class="features-preview">
+                    <div class="feature-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Live Location Tracking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Safety Assistant</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-phone"></i>
+                        <span>Emergency Features</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-home"></i>
+                        <span>Safe Shelters</span>
+                    </div>
+                </div>
+                
+                <div class="security-badges">
+                    <div class="badge">
+                        <i class="fas fa-lock"></i>
+                        <span>256-bit Encryption</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Secure & Private</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 Available</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Auth Section -->
+        <div class="auth-section">
+            <div class="enhanced-auth-card">
+                <!-- Header -->
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>SafeGuard</span>
+                    </div>
+                    <p class="auth-subtitle">Your security, our priority</p>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="enhanced-tabs">
+                    <button class="tab-btn active" data-tab="login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Sign In</span>
+                        <div class="tab-indicator"></div>
+                    </button>
+                    <button class="tab-btn" data-tab="register">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Sign Up</span>
+                        <div class="tab-indicator"></div>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form active">
+                    <div class="form-header">
+                        <h3>Welcome Back</h3>
+                        <p>Sign in to access your security dashboard</p>
+                    </div>
+
+                    <form class="enhanced-form">
+                        <div class="enhanced-group">
+                            <label for="loginUsername">
+                                <i class="fas fa-user"></i>
+                                Username or Email
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="text"
+                                    id="loginUsername"
+                                    name="username"
+                                    placeholder="Enter your username or email"
+                                    required
+                                    autocomplete="username"
+                                >
+                                <div class="input-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="loginUsernameValidation"></div>
+                        </div>
+
+                        <div class="enhanced-group">
+                            <label for="loginPassword">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="password"
+                                    id="loginPassword"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    required
+                                    autocomplete="current-password"
+                                >
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="loginPasswordValidation"></div>
+                        </div>
+
+                        <div class="enhanced-options">
+                            <label class="enhanced-checkbox">
+                                <input type="checkbox" id="rememberMe">
+                                <span class="checkmark"></span>
+                                <span>Remember me</span>
+                            </label>
+                            <a href="#" class="forgot-password">Forgot Password?</a>
+                        </div>
+
+                        <!-- Authentication Method Toggle -->
+                        <div class="enhanced-method-toggle">
+                            <div class="method-tabs">
+                                <button type="button" class="method-tab active" data-method="password">
+                                    <i class="fas fa-key"></i>
+                                    <span>Password</span>
+                                </button>
+                                <button type="button" class="method-tab" data-method="pattern">
+                                    <i class="fas fa-th"></i>
+                                    <span>Pattern Lock</span>
+                                </button>
+                            </div>
+                            <p class="method-description">Choose your preferred authentication method</p>
+                        </div>
+
+                        <!-- Pattern Lock Section -->
+                        <div id="loginPatternSection" class="pattern-lock-section" style="display: none;">
+                            <div class="pattern-lock-container">
+                                <div id="loginPatternLock"></div>
+                            </div>
+                            <p class="pattern-lock-hint">
+                                <i class="fas fa-info-circle"></i>
+                                Draw your pattern to sign in
+                            </p>
+                        </div>
+
+                        <button type="submit" class="enhanced-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Sign In to SafeGuard</span>
+                            <div class="btn-loader"></div>
+                            <div class="btn-shine"></div>
+                        </button>
+                    </form>
+
+                    <!-- Social Login -->
+                    <div class="enhanced-social">
+                        <div class="social-divider">
+                            <span>Or continue with</span>
+                        </div>
+                        <div class="social-buttons">
+                            <button class="social-btn google-btn">
+                                <i class="fab fa-google"></i>
+                                <span>Google</span>
+                            </button>
+                            <button class="social-btn facebook-btn">
+                                <i class="fab fa-facebook-f"></i>
+                                <span>Facebook</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="auth-form">
+                    <div class="form-header">
+                        <h3>Create Your Account</h3>
+                        <p>Join SafeGuard for enhanced security and peace of mind</p>
+                    </div>
+
+                    <form class="enhanced-form">
+                        <!-- Name Fields -->
+                        <div class="form-row">
+                            <div class="enhanced-group">
+                                <label for="registerFirstName">
+                                    <i class="fas fa-user"></i>
+                                    First Name
+                                </label>
+                                <div class="enhanced-input">
+                                    <input
+                                        type="text"
+                                        id="registerFirstName"
+                                        name="firstName"
+                                        placeholder="Enter your first name"
+                                        required
+                                    >
+                                    <div class="input-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="input-validation">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="validation-message" id="registerFirstNameValidation"></div>
+                            </div>
+
+                            <div class="enhanced-group">
+                                <label for="registerLastName">
+                                    <i class="fas fa-user"></i>
+                                    Last Name
+                                </label>
+                                <div class="enhanced-input">
+                                    <input
+                                        type="text"
+                                        id="registerLastName"
+                                        name="lastName"
+                                        placeholder="Enter your last name"
+                                        required
+                                    >
+                                    <div class="input-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="input-validation">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="validation-message" id="registerLastNameValidation"></div>
+                            </div>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="enhanced-group">
+                            <label for="registerUsername">
+                                <i class="fas fa-at"></i>
+                                Username
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="text"
+                                    id="registerUsername"
+                                    name="username"
+                                    placeholder="Choose a unique username"
+                                    required
+                                    autocomplete="username"
+                                >
+                                <div class="input-icon">
+                                    <i class="fas fa-at"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="registerUsernameValidation"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="enhanced-group">
+                            <label for="registerEmail">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="email"
+                                    id="registerEmail"
+                                    name="email"
+                                    placeholder="Enter your email address"
+                                    required
+                                    autocomplete="email"
+                                >
+                                <div class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="registerEmailValidation"></div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="enhanced-group">
+                            <label for="registerPhone">
+                                <i class="fas fa-phone"></i>
+                                Phone Number <span class="optional">(Optional)</span>
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="tel"
+                                    id="registerPhone"
+                                    name="phone"
+                                    placeholder="Enter your phone number"
+                                    autocomplete="tel"
+                                >
+                                <div class="input-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="registerPhoneValidation"></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="enhanced-group password-group">
+                            <label for="registerPassword">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="password"
+                                    id="registerPassword"
+                                    name="password"
+                                    placeholder="Create a strong password"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="registerPasswordValidation"></div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="enhanced-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-lock"></i>
+                                Confirm Password
+                            </label>
+                            <div class="enhanced-input">
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    placeholder="Confirm your password"
+                                    required
+                                    autocomplete="new-password"
+                                >
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <div class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="input-validation">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="passwordMatch"></div>
+                        </div>
+
+                        <!-- Authentication Method Toggle -->
+                        <div class="enhanced-method-toggle">
+                            <div class="method-tabs">
+                                <button type="button" class="method-tab active" data-method="password">
+                                    <i class="fas fa-key"></i>
+                                    <span>Password</span>
+                                </button>
+                                <button type="button" class="method-tab" data-method="pattern">
+                                    <i class="fas fa-th"></i>
+                                    <span>Pattern Lock</span>
+                                </button>
+                            </div>
+                            <p class="method-description">Set up your preferred authentication method</p>
+                        </div>
+
+                        <!-- Pattern Lock Section -->
+                        <div id="registerPatternSection" class="pattern-lock-section" style="display: none;">
+                            <div class="pattern-lock-container">
+                                <div id="registerPatternLock"></div>
+                            </div>
+                            <p class="pattern-lock-info">
+                                <i class="fas fa-info-circle"></i>
+                                Create a pattern lock as an alternative security method for your account.
+                            </p>
+                        </div>
+
+                        <!-- Agreements -->
+                        <div class="enhanced-group">
+                            <label class="enhanced-checkbox agreement">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span class="checkmark"></span>
+                                <span>I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a></span>
+                            </label>
+                            <div class="validation-message" id="agreeTermsValidation"></div>
+                        </div>
+
+                        <div class="enhanced-group">
+                            <label class="enhanced-checkbox">
+                                <input type="checkbox" id="newsletter">
+                                <span class="checkmark"></span>
+                                <span>Subscribe to safety tips and security updates</span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="enhanced-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Create SafeGuard Account</span>
+                            <div class="btn-loader"></div>
+                            <div class="btn-shine"></div>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Message Display -->
+                <div id="authMessage" class="auth-message"></div>
+
+                <!-- Security Footer -->
+                <div class="enhanced-footer">
+                    <div class="security-badges">
+                        <div class="security-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>256-bit Encryption</span>
+                        </div>
+                        <div class="security-badge">
+                            <i class="fas fa-lock"></i>
+                            <span>Secure & Private</span>
+                        </div>
+                        <div class="security-badge">
+                            <i class="fas fa-certificate"></i>
+                            <span>GDPR Compliant</span>
+                        </div>
+                    </div>
+                    <p class="security-text">Protected by enterprise-grade security</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="modal-loading-overlay">
+        <div class="loading-content">
+            <div class="spinner">
+                <div class="shield-spinner">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+            </div>
+            <h3>Secure Login in Progress</h3>
+            <p>Verifying your credentials...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='simple_working_pattern_lock.js') }}"></script>
+    <script src="{{ url_for('static', filename='auth-enhanced.js') }}"></script>
+    
+    <script>
+        // Page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any page-specific initialization here
+            console.log('SafeGuard Authentication Page Loaded');
+        });
+
+        // Background animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .background-animation {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                overflow: hidden;
+            }
+            
+            .floating-shapes {
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .shape {
+                position: absolute;
+                background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+                border-radius: 50%;
+                animation: float 20s infinite linear;
+            }
+            
+            .shape-1 {
+                width: 80px;
+                height: 80px;
+                top: 20%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+            
+            .shape-2 {
+                width: 120px;
+                height: 120px;
+                top: 60%;
+                left: 80%;
+                animation-delay: 5s;
+            }
+            
+            .shape-3 {
+                width: 60px;
+                height: 60px;
+                top: 80%;
+                left: 20%;
+                animation-delay: 10s;
+            }
+            
+            .shape-4 {
+                width: 100px;
+                height: 100px;
+                top: 40%;
+                left: 70%;
+                animation-delay: 15s;
+            }
+            
+            .shape-5 {
+                width: 140px;
+                height: 140px;
+                top: 10%;
+                left: 50%;
+                animation-delay: 7s;
+            }
+            
+            @keyframes float {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 0.5;
+                }
+                50% {
+                    transform: translateY(-20px) rotate(180deg);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translateY(0) rotate(360deg);
+                    opacity: 0.5;
+                }
+            }
+            
+            .hero-section {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: var(--space-8);
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            }
+            
+            .hero-content {
+                max-width: 500px;
+                text-align: center;
+            }
+            
+            .logo-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--space-3);
+                margin-bottom: var(--space-6);
+            }
+            
+            .logo-icon {
+                font-size: 3rem;
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            .logo-text h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: var(--primary-color);
+                margin: 0;
+            }
+            
+            .logo-text p {
+                color: var(--gray-600);
+                margin: 0;
+                font-size: 1.1rem;
+            }
+            
+            .hero-text h2 {
+                font-size: 2rem;
+                font-weight: 600;
+                color: var(--gray-800);
+                margin-bottom: var(--space-4);
+            }
+            
+            .hero-text p {
+                color: var(--gray-600);
+                font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: var(--space-6);
+            }
+            
+            .features-preview {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-4);
+                margin-bottom: var(--space-6);
+            }
+            
+            .feature-item {
+                display: flex;
+                align-items: center;
+                gap: var(--space-3);
+                padding: var(--space-3);
+                background: var(--white);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-sm);
+            }
+            
+            .feature-item i {
+                color: var(--primary-color);
+                font-size: 1.2rem;
+            }
+            
+            .feature-item span {
+                font-weight: 500;
+                color: var(--gray-700);
+            }
+            
+            .security-badges {
+                display: flex;
+                justify-content: center;
+                gap: var(--space-4);
+                flex-wrap: wrap;
+            }
+            
+            .badge {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                padding: var(--space-2) var(--space-4);
+                background: var(--white);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-sm);
+                font-size: 0.9rem;
+                color: var(--gray-600);
+            }
+            
+            .badge i {
+                color: var(--success-color);
+            }
+            
+            .auth-container-main {
+                display: flex;
+                min-height: 100vh;
+                position: relative;
+            }
+            
+            @media (max-width: 1024px) {
+                .auth-container-main {
+                    flex-direction: column;
+                }
+                
+                .hero-section {
+                    order: 2;
+                    padding: var(--space-6);
+                }
+                
+                .auth-section {
+                    order: 1;
+                    max-width: 100%;
+                }
+                
+                .features-preview {
+                    grid-template-columns: 1fr;
+                }
+                
+                .security-badges {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
